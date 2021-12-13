@@ -1,0 +1,644 @@
+import java.util.Scanner;
+class Account {                 //node class for storing data
+	int Account_No;          
+	String Name;
+	String Address;
+	float Balance;
+	Account next;
+	Account(String nm ,String ad, int acc_no,float balance){       //constructor for accepting and storing data
+		Account_No = acc_no;
+		Name = nm;
+		Address = ad;
+		Balance = balance;
+		next = null;
+	}
+}
+class Bank{
+	Account head;
+	Scanner sc = new Scanner(System.in);
+void accept() {                    //creating accept function for creating list
+		Account ptr;
+        int ans=0;
+			do {
+		System.out.println("Enter the account number: ");
+		int acc_no = sc.nextInt();
+		System.out.println("Enter the name of account holder: ");
+		String nm = sc.next();
+		System.out.println("Enter the adress of account holder: ");
+		String ad = sc.next();
+		System.out.println("Enter balance in the account: ");
+		float balance = sc.nextFloat();
+		System.out.println();
+			Account temp = new Account(nm,ad,acc_no,balance);   //passing details
+			System.out.println("Do you want to add another node?? Press 1 if yes or else 0 : ");
+			ans = sc.nextInt();
+			temp.next=null;
+			if (head==null) {          //  condition for storing data in first node
+				head = temp;
+			}
+				else                   //data will be stored in node next to first node
+				{
+					ptr = head;
+					while(ptr.next!=null)
+					{
+						ptr = ptr.next;
+					}
+					ptr.next = temp;
+				}
+			} while(ans==1);
+			 
+		}
+void insert() {                         //creating insert function to add node at the end of list
+	System.out.println("***Enter the data for node to be inserted***");
+	System.out.println("Enter the account number: ");
+	int acc_no = sc.nextInt();
+	System.out.println("Enter the name of account holder: ");
+	String nm = sc.next();
+	System.out.println("Enter the adress of account holder: ");
+	String ad = sc.next();
+	System.out.println("Enter balance in the account: ");
+	float balance = sc.nextFloat();
+	System.out.println();
+	Account temp = new Account(nm,ad,acc_no,balance);     //passing details
+	if(head==null) {                   //first node
+		head = temp;	
+	}
+	else {
+		Account start = head;
+		while(start.next!=null) {          // traversing till last node coz we have to insert at last node
+			start=start.next;
+		}
+		start.next=temp;
+	}
+	System.out.println("The data is Inserted!!");
+}
+ void insertAtStart() {               //creating function to insert node at start of list
+	System.out.println("**Enter the data of node you want to insert at Start**");
+	System.out.println("Enter the account number: ");
+	int acc_no = sc.nextInt();
+	System.out.println("Enter the name of account holder: ");
+	String nm = sc.next();
+	System.out.println("Enter the adress of account holder: ");
+	String ad = sc.next();
+	System.out.println("Enter balance in the account: ");
+	float balance = sc.nextFloat();
+	Account temp = new Account(nm,ad,acc_no,balance);
+	temp.next=null;       //this new node will point to null
+	temp.next=head;      // this new node will point to initial head
+	head=temp;            //head will point to the temp node
+	System.out.println("The data is inserted at strart!!");
+}
+  void insertAtindex(int index) {      //creating function to insert node at given index by passing index as parameter
+	 int ind;
+        System.out.println("Enter the index where you want to insert:");
+        ind = sc.nextInt();
+	 if(ind==0)   //if entered index is 0 it will call insertAtStart() function
+		 insertAtStart();
+	 else  {
+		 if (ind<0) {         //if entered index is negative which is invalid
+			 System.out.println("Invalid Index!!");
+		 }
+		 else {
+		 Account node = head; //node points to head
+         for (int i = 0; i < ind - 1; i++) //using for loop to reach at the required index
+         {
+             node = node.next;     //points to next node
+         System.out.println("**Enter the data of node you want to insert at given index**");
+     	System.out.println("Enter the account number: ");
+     	int acc_no = sc.nextInt();
+     	System.out.println("Enter the name of account holder: ");
+     	String nm = sc.next();
+     	System.out.println("Enter the adress of account holder: ");
+     	String ad = sc.next();
+     	System.out.println("Enter balance in the account: ");
+     	float balance = sc.nextFloat();
+     	Account temp = new Account(nm,ad,acc_no,balance);
+     	temp.next=null;
+     temp.next=node.next;    
+     node.next=temp;
+     System.out.println("The data is inserted at index : "+ind);
+     
+	 }
+	 }
+ }
+ }
+void delete(int index) {        //creating function to delete a specific node 
+	if (head==null) {             //condition for empty list
+		System.out.println("Empty List");
+	}
+	else {
+		if(index==0) {      //    deleting head
+			head=head.next;
+		}
+		else {
+			Account ptr=head;             //   ptr pointing towards head
+			Account ptr1=null;    // temporary node ptr1
+			for(int i=0;i<index-1;i++)   // using for loop we can find the node before the node which is to be deleted
+				ptr=ptr.next;
+			ptr1=ptr.next;
+			ptr.next=ptr1.next;	
+		}
+		System.out.println("Deleted Successfully!!");
+	}
+}
+void display() {          //creating display function to display all nodes
+	Account ptr = head;    //ptr pointing to head
+     if(head==null) {
+   	System.out.println("Empty List");
+         }
+		else
+	{
+			int i=1;
+		while(ptr.next!=null) {        //traversing through list
+			    System.out.println("**Details of Account holder**");
+				System.out.println("Name of the account holder: " +ptr.Name);
+				System.out.println("Address of the account holder: " +ptr.Address);
+				System.out.println("Account Number: "+ptr.Account_No);
+				System.out.println("Balance in the account: " +ptr.Balance);
+				ptr=ptr.next;
+				i++;
+				System.out.println();
+			}     
+		System.out.println("**Details of Account holder**");  //printing last node
+		System.out.println("Name of the account holder: " +ptr.Name);
+		System.out.println("Address of the account holder: " +ptr.Address);
+		System.out.println("Account Number: "+ptr.Account_No);
+		System.out.println("Balance in the account: " +ptr.Balance);
+		System.out.println();
+	}
+}
+void deposit() {       
+	if (head == null)           //condition for empty list    
+        System.out.println("List is empty!");
+    else
+    {
+        Account node = head;
+        System.out.println("Enter the account number in which you want to deposit: ");
+        int acc_no = sc.nextInt();
+        while (node.Account_No != acc_no) //traversing through list to find the account number
+        {
+            node = node.next;
+            if (node == null) //if account having entered account number not found
+            {
+                System.out.println("Account having account number " +acc_no+ " not found!!");
+                return;
+            }
+        }
+        System.out.println("Enter the amount you want to deposit? ");
+        float balance = sc.nextFloat();
+        node.Balance = node.Balance + balance; //Depositing money
+        System.out.println("Deposited successfully!!");
+    }
+}
+void withdraw() {
+	if (head == null)        //condition for empty list
+        System.out.println("List is empty!");
+	else
+	{
+		Account node = head;
+        System.out.println("Enter the account number from which you want to withdraw: ");
+        int acc_no = sc.nextInt();
+        while (node.Account_No != acc_no) //traversing through list to find the account number
+        {
+            node = node.next;
+            if (node == null) //if account having entered account number not found
+            {
+                System.out.println("Account having account number " +acc_no+ " not found!!");
+                return;
+            }
+        }
+        System.out.println("Enter the amount you want to deposit? ");
+        float balance = sc.nextFloat();
+        if(node.Balance-balance<1000) {     //condition for withdrawing money
+        	System.out.println("You cannot withdraw money because of insufficient Balance!!");
+        }
+        else {
+        	node.Balance = node.Balance - balance; //withdrawing money
+            System.out.println("Withdrawn successfully!!");
+        }
+	}
+}
+}
+
+public class Bank_Application {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+     Bank l = new Bank();
+     int choice;
+     Scanner sc = new Scanner(System.in);
+     do{
+     System.out.println("Which banking operation you want to perform:");
+     System.out.println("1.Accept a list of account holders: ");
+     System.out.println("2.Delete the data of any account holder ");
+     System.out.println("3.Insert the data at the start of list:   ");
+     System.out.println("4.Insert the data at a particular index in list:  ");
+     System.out.println("5.Insert the data at the end of list: ");
+     System.out.println("6.Display the list: ");
+     System.out.println("7.Deposit money in desired account:");
+     System.out.println("8.Withdraw money from desired account: ");
+     System.out.println();
+     System.out.println("Enter your choice: ");
+     System.out.println();
+     choice=sc.nextInt();
+     switch (choice)
+     {
+         case 1:
+             l.accept();
+             break;
+         case 2:
+        	 System.out.println("Enter index at which you want to delete a node: ");
+            int index=sc.nextInt();
+             l.delete(index);
+             break;
+         case 3:
+        	 l.insertAtStart();
+             break;
+         case 4:
+             System.out.println("Enter index at which you want to insert a node: ");
+             index=sc.nextInt();
+             l.insertAtindex( index);
+             break;
+         case 5:
+        	 l.insert();
+             break;
+         case 6:
+             l.display();
+             break;
+         case 7:
+             l.deposit();
+             break;
+         case 8:
+             l.withdraw();
+             break;
+         default:
+             System.out.println("Invalid choice!!!");
+     }
+         System.out.println();
+         System.out.println("If you want to continue press 1 or else 0 : ");
+         choice=sc.nextInt();
+     }
+     while (choice==1);
+     System.out.println("***Bank is Closed***");
+ }
+}
+
+/* OUTPUT:
+ * Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+1
+Enter the account number: 
+1
+Enter the name of account holder: 
+mitali
+Enter the adress of account holder: 
+abc
+Enter balance in the account: 
+4444
+
+Do you want to add another node?? Press 1 if yes or else 0 : 
+1
+Enter the account number: 
+2
+Enter the name of account holder: 
+anjali
+Enter the adress of account holder: 
+xyz
+Enter balance in the account: 
+222
+
+Do you want to add another node?? Press 1 if yes or else 0 : 
+0
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+6
+**Details of Account holder**
+Name of the account holder: mitali
+Address of the account holder: abc
+Account Number: 1
+Balance in the account: 4444.0
+
+**Details of Account holder**
+Name of the account holder: anjali
+Address of the account holder: xyz
+Account Number: 2
+Balance in the account: 222.0
+
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+2
+Enter index at which you want to delete a node: 
+1
+Deleted Successfully!!
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+6
+**Details of Account holder**
+Name of the account holder: mitali
+Address of the account holder: abc
+Account Number: 1
+Balance in the account: 4444.0
+
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+3
+**Enter the data of node you want to insert at Start**
+Enter the account number: 
+3
+Enter the name of account holder: 
+sakshi
+Enter the adress of account holder: 
+wer
+Enter balance in the account: 
+7869
+The data is inserted at strart!!
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+4
+Enter index at which you want to insert a node: 
+2
+Enter the index where you want to insert:
+2
+**Enter the data of node you want to insert at given index**
+Enter the account number: 
+34
+Enter the name of account holder: 
+rutuja
+Enter the adress of account holder: 
+yui
+Enter balance in the account: 
+4532
+The data is inserted at index : 2
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+5
+***Enter the data for node to be inserted***
+Enter the account number: 
+53
+Enter the name of account holder: 
+madhura
+Enter the adress of account holder: 
+fgh
+Enter balance in the account: 
+5555
+
+The data is Inserted!!
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+6
+**Details of Account holder**
+Name of the account holder: sakshi
+Address of the account holder: wer
+Account Number: 3
+Balance in the account: 7869.0
+
+**Details of Account holder**
+Name of the account holder: mitali
+Address of the account holder: abc
+Account Number: 1
+Balance in the account: 4444.0
+
+**Details of Account holder**
+Name of the account holder: rutuja
+Address of the account holder: yui
+Account Number: 34
+Balance in the account: 4532.0
+
+**Details of Account holder**
+Name of the account holder: madhura
+Address of the account holder: fgh
+Account Number: 53
+Balance in the account: 5555.0
+
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+7
+Enter the account number in which you want to deposit: 
+34
+Enter the amount you want to deposit? 
+500
+Deposited successfully!!
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+6
+**Details of Account holder**
+Name of the account holder: sakshi
+Address of the account holder: wer
+Account Number: 3
+Balance in the account: 7869.0
+
+**Details of Account holder**
+Name of the account holder: mitali
+Address of the account holder: abc
+Account Number: 1
+Balance in the account: 4444.0
+
+**Details of Account holder**
+Name of the account holder: rutuja
+Address of the account holder: yui
+Account Number: 34
+Balance in the account: 5032.0
+
+**Details of Account holder**
+Name of the account holder: madhura
+Address of the account holder: fgh
+Account Number: 53
+Balance in the account: 5555.0
+
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+8
+Enter the account number from which you want to withdraw: 
+1
+Enter the amount you want to deposit? 
+1111
+Withdrawn successfully!!
+
+If you want to continue press 1 or else 0 : 
+1
+Which banking operation you want to perform:
+1.Accept a list of account holders: 
+2.Delete the data of any account holder 
+3.Insert the data at the start of list:   
+4.Insert the data at a particular index in list:  
+5.Insert the data at the end of list: 
+6.Display the list: 
+7.Deposit money in desired account:
+8.Withdraw money from desired account: 
+
+Enter your choice: 
+
+6
+**Details of Account holder**
+Name of the account holder: sakshi
+Address of the account holder: wer
+Account Number: 3
+Balance in the account: 7869.0
+
+**Details of Account holder**
+Name of the account holder: mitali
+Address of the account holder: abc
+Account Number: 1
+Balance in the account: 3333.0
+
+**Details of Account holder**
+Name of the account holder: rutuja
+Address of the account holder: yui
+Account Number: 34
+Balance in the account: 5032.0
+
+**Details of Account holder**
+Name of the account holder: madhura
+Address of the account holder: fgh
+Account Number: 53
+Balance in the account: 5555.0
+
+
+If you want to continue press 1 or else 0 : 
+0
+***Bank is Closed***
+
+ */
+	
+
+
